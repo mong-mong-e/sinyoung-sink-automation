@@ -46,6 +46,14 @@ function run() {
   CATEGORIES.forEach(c => { targets[c] = getOrCreateFolder_(library, c); });
   const log = getOrCreateLog_(library);
   const done = copiedSourceIds_(log);
+  // 복사 직후 실행이 끊기면 목록에 안 남으므로, 복사본 설명(src:)도 함께 본다.
+  Object.values(targets).forEach(folder => {
+    const it = folder.getFiles();
+    while (it.hasNext()) {
+      const m = (it.next().getDescription() || '').match(/^src:(.+)$/);
+      if (m) done.add(m[1]);
+    }
+  });
 
   let copied = 0;
   const finished = walk_(root, [], library.getId(), (folderPath, files) => {
