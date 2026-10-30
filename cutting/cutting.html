@@ -1,0 +1,1472 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>신영싱크 주비스</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* 작업대 위 도면철 느낌: 밝은 합판색 바탕, 남색 글자, 주황 연필 강조 */
+  :root {
+    --bg: #f4f2ec; --card: #ffffff; --ink: #1d2733; --sub: #5d6773; --line: #d9d5ca;
+    --accent: #c2581b; --accent-ink: #ffffff; --head: #1f2d3d; --head-ink: #f4f2ec;
+    --part: #dbe6f7; --part-line: #4a74b8; --part-ink: #17345f;
+    --scrap: #efe3c8; --scrap-line: #b8954f; --scrap-ink: #7a5a1c;
+    --keep: #d6efdc; --keep-line: #3a8f53; --keep-ink: #1f5f33;
+    --sheet: #f8f5ee; --sheet-line: #8a7d63;
+    --warn: #b42318; --warn-bg: #fdeceb; --ok: #2f7d46; --ok-bg: #e3f3e7; --q-bg: #fff4dc;
+    --font: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    --num: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #171c22; --card: #20262e; --ink: #e8e4da; --sub: #a3abb5; --line: #39414b;
+    --accent: #f08a4b; --accent-ink: #1b1208; --head: #0f1419; --head-ink: #e8e4da;
+    --part: #24364f; --part-line: #6f98d8; --part-ink: #d6e4fa;
+    --scrap: #3d3423; --scrap-line: #b8954f; --scrap-ink: #ecd6a8;
+    --keep: #1f3b29; --keep-line: #5fb47a; --keep-ink: #c9efd4;
+    --sheet: #262b31; --sheet-line: #8a7d63;
+    --warn: #ff8a80; --warn-bg: #3b1f1d; --ok: #7fd197; --ok-bg: #1d3325; --q-bg: #3a3020; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #171c22; --card: #20262e; --ink: #e8e4da; --sub: #a3abb5; --line: #39414b;
+    --accent: #f08a4b; --accent-ink: #1b1208; --head: #0f1419; --head-ink: #e8e4da;
+    --part: #24364f; --part-line: #6f98d8; --part-ink: #d6e4fa;
+    --scrap: #3d3423; --scrap-line: #b8954f; --scrap-ink: #ecd6a8;
+    --keep: #1f3b29; --keep-line: #5fb47a; --keep-ink: #c9efd4;
+    --sheet: #262b31; --sheet-line: #8a7d63;
+    --warn: #ff8a80; --warn-bg: #3b1f1d; --ok: #7fd197; --ok-bg: #1d3325; --q-bg: #3a3020; color-scheme: dark }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--font); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding-block: 12px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 14px; }
+  header.top { background: var(--head); color: var(--head-ink); }
+  header.top .in { max-width: 1100px; margin: 0 auto; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+  header.top h1 { font-size: 18px; margin: 0; letter-spacing: .02em; line-height: 1.25; }
+  header.top h1 small { display: block; font-size: 12px; font-weight: 500; opacity: .8; letter-spacing: 0; }
+  header.top input, header.top select { font: inherit; padding: 7px 10px; border-radius: 6px; border: 1px solid transparent; background: var(--card); color: var(--ink); min-width: 0; }
+  header.top .site { flex: 1 1 200px; display: flex; gap: 6px; min-width: 0; }
+  header.top .site input { flex: 1; }
+  .save { font-size: 13px; opacity: .8; }
+  section.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; min-width: 0; }
+  h2 { font-size: 17px; margin: 0 0 10px; text-wrap: balance; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  h2 .step { font: 600 13px var(--num); color: var(--accent); }
+  h3 { font-size: 15px; margin: 14px 0 6px; }
+  .muted { color: var(--sub); font-size: 13px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button, .filebtn { font: inherit; padding: 7px 13px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; min-height: 38px; display: inline-flex; align-items: center; gap: 6px; }
+  button.primary, .filebtn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  button.small { min-height: 30px; padding: 3px 9px; font-size: 13px; }
+  button:disabled { opacity: .45; cursor: default; }
+  button:focus-visible, input:focus-visible, select:focus-visible, .filebtn:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .filebtn input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border-bottom: 1px solid var(--line); padding: 5px 6px; text-align: left; vertical-align: middle; }
+  th { font-size: 12px; color: var(--sub); font-weight: 500; white-space: nowrap; }
+  td input, td select { width: 100%; padding: 5px 7px; font: inherit; border: 1px solid var(--line); border-radius: 5px; background: var(--card); color: var(--ink); }
+  td input.num { text-align: right; font-family: var(--num); }
+  .num { font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 99px; background: var(--sheet); border: 1px solid var(--line); white-space: nowrap; }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+  .pill.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+  .pill.est { background: var(--q-bg); border-color: transparent; }
+  .warn { color: var(--warn); background: var(--warn-bg); padding: 8px 12px; border-radius: 6px; }
+  .note { background: var(--sheet); border: 1px dashed var(--line); padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+  textarea { width: 100%; min-height: 90px; font: 13px var(--num); padding: 8px; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; }
+
+  /* 도면 카드 */
+  .drawings { display: grid; gap: 12px; }
+  .dw { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: grid; grid-template-columns: 160px 1fr; gap: 12px; }
+  .dw img { width: 100%; border-radius: 6px; border: 1px solid var(--line); background: var(--sheet); }
+  .dw .body { min-width: 0; display: grid; gap: 8px; }
+  .status { font-size: 13px; }
+  .feas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .feas div { border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 13px; min-width: 0; }
+  .feas b { display: block; font-size: 12px; }
+  .feas ul { margin: 2px 0 0; padding-left: 18px; }
+  .qs { display: grid; gap: 8px; }
+  .q { background: var(--q-bg); border-radius: 6px; padding: 8px 10px; display: grid; gap: 6px; }
+  .q .opts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .q .opts button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .q input { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 5px; background: var(--card); color: var(--ink); width: 100%; }
+
+  /* 부품 표 */
+  .prod-h { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; margin-top: 12px; }
+  .prod-h input { font: 600 15px var(--font); border: 1px solid transparent; background: transparent; color: var(--ink); padding: 2px 4px; border-radius: 4px; }
+  .prod-h input:hover, .prod-h input:focus { border-color: var(--line); }
+  .parts td:nth-child(2), .parts td:nth-child(3) { width: 84px; }
+  .parts td:nth-child(4) { width: 62px; }
+  .parts td:nth-child(6) { width: 40px; }
+
+  /* 결과 */
+  .summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .tile { border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; background: var(--sheet); min-width: 0; }
+  .tile .big { font: 600 22px var(--num); }
+  .board { border-top: 2px solid var(--line); padding-top: 10px; margin-top: 14px; display: grid; gap: 8px; }
+  .board-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+  .board-head .times { font: 700 19px var(--num); color: var(--accent); }
+  svg.lay { width: 100%; height: auto; display: block; }
+  .prog { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+  .stepbox { border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; min-width: 0; }
+  .stepbox .t { font-weight: 600; font-size: 14px; }
+  .stepbox .d { font-size: 13px; color: var(--sub); }
+  .stepbox.click { cursor: pointer; }
+  .stepbox.click:hover { border-color: var(--accent); }
+  .stepbox.on { border: 2px solid var(--accent); padding: 6px 8px; background: var(--q-bg); }
+  .layWrap { position: sticky; top: 0; z-index: 2; background: var(--card); padding-bottom: 4px; }
+  svg.lay { max-height: 50vh; }
+  .stepbox td, .stepbox th { padding: 2px 6px; }
+  .stepbox td.n { text-align: right; font-family: var(--num); }
+  .feed { display: inline-block; background: var(--q-bg); padding: 1px 8px; border-radius: 4px; font-size: 13px; }
+  .scraps tr.keep td { background: var(--keep); }
+  .pick.on { background: var(--keep-line); color: #fff; border-color: var(--keep-line); }
+  .pick.off { background: var(--sub); color: var(--card); border-color: var(--sub); }
+  .check { display: flex; gap: 8px; align-items: center; }
+  .check input { width: 20px; height: 20px; accent-color: var(--accent); }
+  .counter { display: inline-flex; align-items: center; gap: 6px; }
+  .counter b { font-family: var(--num); min-width: 3.5em; text-align: center; }
+  .quote { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: grid; gap: 8px; margin-top: 16px; background: var(--sheet); }
+  .quote tr.qtot td { border-top: 2px solid var(--line); }
+  .quote td input { min-width: 80px; }
+  .qtable td.num { white-space: nowrap; }
+  @media (max-width: 640px) {
+    .qtable thead { display: none; }
+    .qtable tr { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .qtable td { border: 0; padding: 0; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .qtable td:first-child { grid-column: 1 / -1; font-weight: 600; }
+    .qtable td[data-l]::before { content: attr(data-l); color: var(--sub); font-size: 12px; font-weight: 400; white-space: nowrap; }
+    .qtable td.qempty { display: none; }
+    .qtable td input { width: 100%; min-width: 0; }
+    .quote tr.qtot td { border-top: 0; }
+  }
+  .confirm { border: 1px solid var(--accent); border-radius: 8px; padding: 10px; display: grid; gap: 8px; }
+  dialog { border: 0; border-radius: 10px; padding: 18px; max-width: 520px; width: calc(100% - 32px); background: var(--card); color: var(--ink); }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  .chk { display: flex; gap: 8px; align-items: center; padding: 3px 0; }
+  .chk input { width: 19px; height: 19px; accent-color: var(--accent); }
+  @media (max-width: 640px) {
+    .dw { grid-template-columns: 1fr; }
+    .dw img { max-height: 220px; object-fit: contain; }
+    .parts thead { display: none; }
+    .parts tr { display: grid; grid-template-columns: 1fr 1fr 58px 40px; gap: 6px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .parts td { border: 0; padding: 0; width: auto !important; }
+    .parts td:nth-child(1), .parts td:nth-child(5) { grid-column: 1 / -1; }
+    .parts td:nth-child(6) { grid-row: 2; grid-column: 4; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<header class="top"><div class="in">
+  <h1>신영싱크 주비스<small>합판재단프로그램</small></h1>
+  <div class="site">
+    <select id="siteSel" aria-label="현장 고르기"><option value="">현장 불러오는 중…</option></select>
+    <input id="siteName" placeholder="현장 이름 (예: 명지국제8로 258)" aria-label="현장 이름">
+  </div>
+  <button id="newSite" class="small">새 현장</button>
+  <span class="save" id="saveMsg"></span>
+</div></header>
+
+<div class="wrap">
+  <section class="card">
+    <h2><span class="step">1</span>도면 넣기 <span class="muted">스케치업 캡처 그림. 한 장에 장이 여러 개 있어도 됩니다.</span></h2>
+    <div class="row">
+      <label class="filebtn primary" id="pickLabel">도면 그림 올리기<input type="file" id="pick" accept="image/png,image/jpeg,image/webp" multiple></label>
+      <span class="muted" id="aiState">Claude 연결 확인 중…</span>
+    </div>
+    <div class="drawings" id="drawings" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2</span>부품 <span class="muted">엣지 붙이기 전 재단 치수(mm). 세로 = 결 방향.</span></h2>
+    <div id="partsBox"></div>
+    <div class="row" style="margin-top:10px">
+      <button id="addProd">+ 완성품 추가</button>
+      <button id="pasteBtn">엑셀에서 붙여넣기</button>
+      <button id="exBtn">예시: 서랍장</button>
+    </div>
+    <div id="pasteBox" hidden style="margin-top:10px; display:grid; gap:8px">
+      <p class="muted" style="margin:0">"부품 이름 · 가로 · 세로 · 수량 · 자재" 순서의 칸을 복사해 붙여넣으세요. 맨 위에 펼쳐진 완성품에 들어갑니다.</p>
+      <textarea id="pasteText"></textarea>
+      <div class="row"><button class="primary" id="pasteOk">넣기</button><button id="pasteCancel">닫기</button></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">3</span>자재 확인</h2>
+    <div class="scroll"><table>
+      <thead><tr><th>자재</th><th>부품</th><th>한 장 단가(원)</th><th>결</th><th>쓸 수 있는 자투리</th></tr></thead>
+      <tbody id="matRows"></tbody>
+    </table></div>
+    <p class="muted" id="matHint"></p>
+    <div class="row" style="margin-bottom:6px">
+      <label>자재 구분 <select id="matMode"><option value="one">모두 한 자재로 (테스트)</option><option value="each">자재별로 따로</option></select></label>
+      <label>완성품 묶기 <select id="groupMode"><option value="mix">섞어서 자르기 (테스트)</option><option value="group1">1장 차이까지 묶기</option></select></label>
+    </div>
+    <label class="chk"><input type="checkbox" id="useScraps" checked> 재사용 자투리를 새 합판보다 먼저 쓰기</label>
+    <details style="margin-top:6px"><summary class="muted">합판·톱날 설정</summary>
+      <div class="row" style="margin-top:8px">
+        <label>합판 <input id="cW" type="number" style="width:80px"> × <input id="cH" type="number" style="width:80px"></label>
+        <label>톱날 <input id="cK" type="number" style="width:60px"></label>
+        <label>여백 <input id="cM" type="number" style="width:60px"></label>
+      </div>
+    </details>
+    <div class="row" style="margin-top:12px">
+      <button class="primary" id="calc" style="font-size:17px; padding:9px 26px">합판 계산하기</button>
+      <span class="muted" id="calcMsg"></span>
+    </div>
+  </section>
+
+  <section class="card" id="result" hidden></section>
+</div>
+
+<dialog id="grainDlg">
+  <h2>어느 부품이 결을 따라야 하나요?</h2>
+  <p class="muted">체크한 부품은 돌리지 않고 세로가 2440 쪽(결 방향)으로 가게 놓습니다.</p>
+  <div id="grainList" style="max-height:50vh; overflow:auto"></div>
+  <div class="row" style="margin-top:12px; justify-content:flex-end">
+    <button id="grainCancel">취소</button><button class="primary" id="grainOk">이대로 계산</button>
+  </div>
+</dialog>
+
+<script>
+// 합판 재단 계산 엔진 (길로틴 재단: 판 → 띠 → 토막 → 부품)
+// 좌표: x = 1220 쪽, y = 2440 쪽. 단위 mm.
+// 방향 A = 1220 쪽으로 재며 먼저 켬 (2440 길이 띠가 나옴)
+// 방향 B = 2440 쪽으로 재며 먼저 켬 (1220 길이 띠가 나옴)
+(function (root) {
+  'use strict';
+
+  var DEFAULTS = { sheetW: 1220, sheetH: 2440, kerf: 3, margin: 10, tries: 300, timeLimit: 2500 };
+
+  // 부품 목록을 낱개로 펼친다. 결 따르는 부품은 돌리지 않는다.
+  function expand(parts) {
+    var items = [], n = 0;
+    parts.forEach(function (p, pi) {
+      for (var k = 0; k < p.qty; k++) {
+        items.push({ uid: n++, part: pi, name: p.name, tag: p.tag || '', w: p.w, h: p.h, grain: !!p.grain });
+      }
+    });
+    return items;
+  }
+
+  // 판 위 방향(a = 띠 폭 쪽, l = 띠 길이 쪽)으로 놓을 수 있는 모양들
+  function orients(it, dir) {
+    var list = [{ xw: it.w, yh: it.h, rot: false }];
+    if (!it.grain && it.w !== it.h) list.push({ xw: it.h, yh: it.w, rot: true });
+    return list.map(function (o) {
+      return dir === 'A' ? { a: o.xw, l: o.yh, rot: o.rot } : { a: o.yh, l: o.xw, rot: o.rot };
+    });
+  }
+
+  // 판 하나 채우기. items 순서대로 넣는다. 쓴 부품은 used[uid] = true.
+  function packBoard(items, used, A, L, kerf, dir, pref) {
+    var strips = [], pos = 0;
+    function free(it) { return !used[it.uid]; }
+
+    while (true) {
+      // 띠 시작 부품: 순서상 처음으로 들어가는 부품
+      var seed = null;
+      for (var i = 0; i < items.length && !seed; i++) {
+        var it = items[i];
+        if (!free(it)) continue;
+        var fits = orients(it, dir).filter(function (o) { return pos + o.a <= A && o.l <= L; });
+        if (!fits.length) continue;
+        fits.sort(function (p, q) { return pref === 'wide' ? q.a - p.a : p.a - q.a; });
+        seed = { it: it, o: fits[0] };
+      }
+      if (!seed) break;
+
+      var strip = { a: seed.o.a, segs: [] }, lpos = 0, first = true;
+      while (true) {
+        var s = null;
+        if (first) { s = seed; first = false; }
+        else {
+          // 띠 폭과 딱 맞는 부품을 먼저, 없으면 들어가는 부품
+          for (var pass = 0; pass < 2 && !s; pass++) {
+            for (var j = 0; j < items.length && !s; j++) {
+              var jt = items[j];
+              if (!free(jt)) continue;
+              var os = orients(jt, dir).filter(function (o) {
+                return o.a <= strip.a && lpos + o.l <= L && (pass === 1 || o.a === strip.a);
+              });
+              if (os.length) {
+                os.sort(function (p, q) { return q.a - p.a; });
+                s = { it: jt, o: os[0] };
+              }
+            }
+          }
+        }
+        if (!s) break;
+        used[s.it.uid] = true;
+        var seg = { l: s.o.l, pieces: [{ it: s.it, a: s.o.a, l: s.o.l, rot: s.o.rot }] };
+        var apos = s.o.a;
+        // 띠 폭 안에 나란히 쌓는다. 같은 길이를 먼저, 그다음 짧은 것(④ 길이 맞추기 필요)
+        for (var pass2 = 0; pass2 < 2; pass2++) {
+          for (var k = 0; k < items.length; k++) {
+            var kt = items[k];
+            if (!free(kt)) continue;
+            var ok = orients(kt, dir).filter(function (o) {
+              return (pass2 === 0 ? o.l === seg.l : o.l < seg.l) && apos + kerf + o.a <= strip.a;
+            });
+            if (ok.length) {
+              ok.sort(function (p, q) { return q.l - p.l || q.a - p.a; });
+              used[kt.uid] = true;
+              seg.pieces.push({ it: kt, a: ok[0].a, l: ok[0].l, rot: ok[0].rot });
+              apos += kerf + ok[0].a;
+            }
+          }
+        }
+        strip.segs.push(seg);
+        lpos += seg.l + kerf;
+      }
+      strips.push(strip);
+      pos += strip.a + kerf;
+    }
+    return strips;
+  }
+
+  // 띠 구조를 실제 좌표(배치, 자투리)로 바꾼다
+  function layout(board, kerf) {
+    var dir = board.dir, A = board.A, L = board.L, off = board.offset;
+    var placed = [], rest = [];
+    function rect(a0, l0, a, l) {
+      return dir === 'A' ? { x: off + a0, y: off + l0, w: a, h: l } : { x: off + l0, y: off + a0, w: l, h: a };
+    }
+    var pos = 0;
+    board.strips.forEach(function (st) {
+      var lpos = 0;
+      st.segs.forEach(function (sg) {
+        var apos = 0;
+        sg.pieces.forEach(function (p, i) {
+          if (i > 0) apos += kerf;
+          var r = rect(pos + apos, lpos, p.a, p.l);
+          r.name = p.it.name; r.tag = p.it.tag; r.pw = p.it.w; r.ph = p.it.h; r.rot = p.rot;
+          placed.push(r);
+          var wl0 = sg.l - p.l - kerf;
+          if (wl0 > 0) rest.push(rect(pos + apos, lpos + p.l + kerf, p.a, wl0));
+          apos += p.a;
+        });
+        var wa = st.a - apos - kerf;
+        if (wa > 0) rest.push(rect(pos + apos + kerf, lpos, wa, sg.l));
+        lpos += sg.l + kerf;
+      });
+      var wl = L - lpos;
+      if (wl > 0) rest.push(rect(pos, lpos, st.a, wl));
+      pos += st.a + kerf;
+    });
+    var wa2 = A - pos;
+    if (wa2 > 0) rest.push(rect(pos, 0, wa2, L));
+    board.placed = placed;
+    board.leftovers = rest;
+    var area = 0;
+    placed.forEach(function (r) { area += r.w * r.h; });
+    board.usedArea = area;
+    board.usage = area / (board.fullW * board.fullH);
+    return board;
+  }
+
+  function makeBoard(kind, fullW, fullH, margin, dir, scrap) {
+    var uw = fullW - 2 * margin, uh = fullH - 2 * margin;
+    return {
+      kind: kind, scrap: scrap || null, fullW: fullW, fullH: fullH, margin: margin, offset: margin,
+      dir: dir, A: dir === 'A' ? uw : uh, L: dir === 'A' ? uh : uw, strips: []
+    };
+  }
+
+  function boardArea(strips) {
+    var s = 0;
+    strips.forEach(function (st) { st.segs.forEach(function (sg) { sg.pieces.forEach(function (p) { s += p.a * p.l; }); }); });
+    return s;
+  }
+
+  // 판 하나에 두 방향 다 시도해서 많이 넣는 쪽
+  function fillOne(items, used, kind, fullW, fullH, margin, kerf, dirMode, pref, scrap) {
+    var dirs = dirMode === 'best' ? ['A', 'B'] : [dirMode];
+    var best = null;
+    dirs.forEach(function (d) {
+      var b = makeBoard(kind, fullW, fullH, margin, d, scrap);
+      var u = Object.assign({}, used);
+      b.strips = packBoard(items, u, b.A, b.L, kerf, d, pref);
+      var ar = boardArea(b.strips);
+      if (!best || ar > best.area) best = { board: b, used: u, area: ar };
+    });
+    return best;
+  }
+
+  function runStrategy(items, scraps, o, dirMode, pref) {
+    var used = {}, boards = [], unplaced = [];
+    // 재사용 자투리 먼저 (큰 것부터). 자투리는 이미 잘린 면이라 여백 없음.
+    scraps.slice().sort(function (p, q) { return q.w * q.h - p.w * p.h; }).forEach(function (sc) {
+      var r = fillOne(items, used, 'scrap', sc.w, sc.h, 0, o.kerf, dirMode, pref, sc);
+      if (r.area > 0) { boards.push(r.board); used = r.used; }
+    });
+    while (true) {
+      var left = items.filter(function (it) { return !used[it.uid]; });
+      if (!left.length) break;
+      var r2 = fillOne(items, used, 'new', o.sheetW, o.sheetH, o.margin, o.kerf, dirMode, pref);
+      if (r2.area > 0) { boards.push(r2.board); used = r2.used; }
+      else { unplaced.push(left[0]); used[left[0].uid] = true; }
+    }
+    return { boards: boards, unplaced: unplaced };
+  }
+
+  // 판마다 여러 순서로 넣어 보고 가장 꽉 차는 배치를 고른다
+  function runSheetBest(base, scraps, o, keys, rand, perBoard) {
+    var used = {}, boards = [], unplaced = [];
+    function candidates() {
+      var left = base.filter(function (it) { return !used[it.uid]; });
+      var c = keys.map(function (f) { return left.slice().sort(function (p, q) { return f(p) - f(q) || p.part - q.part; }); });
+      for (var t = 0; t < perBoard; t++) {
+        var f = keys[t % keys.length];
+        var noisy = left.map(function (it) { return { it: it, k: f(it) * (0.6 + rand() * 0.8) }; });
+        noisy.sort(function (p, q) { return p.k - q.k; });
+        c.push(noisy.map(function (x) { return x.it; }));
+      }
+      return c;
+    }
+    function bestFill(kind, w, h, margin, sc) {
+      var best = null;
+      candidates().forEach(function (ord) {
+        ['wide', 'narrow'].forEach(function (pref) {
+          var r = fillOne(ord, used, kind, w, h, margin, o.kerf, 'best', pref, sc);
+          if (!best || r.area > best.area) best = r;
+        });
+      });
+      return best;
+    }
+    scraps.slice().sort(function (p, q) { return q.w * q.h - p.w * p.h; }).forEach(function (sc) {
+      if (!base.some(function (it) { return !used[it.uid]; })) return;
+      var r = bestFill('scrap', sc.w, sc.h, 0, sc);
+      if (r.area > 0) { boards.push(r.board); used = r.used; }
+    });
+    while (true) {
+      var left = base.filter(function (it) { return !used[it.uid]; });
+      if (!left.length) break;
+      var r2 = bestFill('new', o.sheetW, o.sheetH, o.margin);
+      if (r2.area > 0) { boards.push(r2.board); used = r2.used; }
+      else { unplaced.push(left[0]); used[left[0].uid] = true; }
+    }
+    return { boards: boards, unplaced: unplaced };
+  }
+
+  function score(res) {
+    var newCount = res.boards.filter(function (b) { return b.kind === 'new'; }).length;
+    // 같은 장수면 자투리가 큰 덩어리로 남는 쪽, 그다음 띠 수가 적은 쪽
+    var sq = 0, strips = 0;
+    res.boards.forEach(function (b) {
+      b.leftovers.forEach(function (r) { sq += Math.pow(r.w * r.h / 1e6, 2); });
+      strips += b.strips.length;
+    });
+    return [res.unplaced.length, newCount, -sq, strips];
+  }
+  function better(s, t) {
+    for (var i = 0; i < s.length; i++) { if (s[i] !== t[i]) return s[i] < t[i]; }
+    return false;
+  }
+
+  // 가벼운 난수 (결과가 매번 같도록 씨앗 고정)
+  function rng(seed) {
+    return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+  }
+
+  function solve(parts, scraps, opt) {
+    var o = Object.assign({}, DEFAULTS, opt || {});
+    var base = expand(parts);
+    var keys = [
+      function (t) { return -t.w * t.h; },
+      function (t) { return -Math.max(t.w, t.h); },
+      function (t) { return -Math.min(t.w, t.h); },
+      function (t) { return -t.h; },
+      function (t) { return -t.w; },
+      function (t) { return -(t.w + t.h); }
+    ];
+    var orders = keys.map(function (f) {
+      return base.slice().sort(function (p, q) { return f(p) - f(q) || p.part - q.part; });
+    });
+    var rand = rng(12345);
+    for (var t = 0; t < o.tries; t++) {
+      // 큰 것부터 넣되 조금씩 섞는다
+      var f = keys[t % keys.length];
+      var noisy = base.map(function (it) { return { it: it, k: f(it) * (0.75 + rand() * 0.5) }; });
+      noisy.sort(function (p, q) { return p.k - q.k; });
+      orders.push(noisy.map(function (x) { return x.it; }));
+    }
+    var best = null, bestScore = null, start = Date.now();
+    function consider(res) {
+      res.boards.forEach(function (b) { layout(b, o.kerf); });
+      var sc = score(res);
+      if (!best || better(sc, bestScore)) { best = res; bestScore = sc; }
+    }
+    // 판마다 가장 꽉 차게: 부품이 많으면 시도 횟수를 줄인다
+    var per = Math.max(10, Math.min(120, Math.round(6000 / Math.max(1, base.length))));
+    consider(runSheetBest(base, scraps || [], o, keys, rng(777), per));
+    orders.forEach(function (ord, oi) {
+      // 정해진 순서 몇 개는 꼭 돌리고, 섞은 순서는 시간 안에서만
+      if (oi >= keys.length && Date.now() - start > o.timeLimit) return;
+      ['best', 'A', 'B'].forEach(function (dm) {
+        ['wide', 'narrow'].forEach(function (pref) {
+          consider(runStrategy(ord, scraps || [], o, dm, pref));
+        });
+      });
+    });
+    best.newCount = best.boards.filter(function (b) { return b.kind === 'new'; }).length;
+    best.boards.forEach(function (b) { b.program = program(b, o); });
+    return best;
+  }
+
+  // ---- CNC-3500 입력 순서 ----
+  // 같은 치수가 이어지면 횟수로 묶는다. cuts = 그림에 표시할 자르는 자리들
+  function group(dims) {
+    var out = [];
+    dims.forEach(function (d) {
+      var last = out[out.length - 1];
+      if (last && last.dim === d.dim && last.note === (d.note || '')) { last.n++; last.cuts.push(d.cut); }
+      else out.push({ dim: d.dim, n: 1, note: d.note || '', cuts: [d.cut] });
+    });
+    return out;
+  }
+
+  // 단계마다: lines(입력치수·횟수), feed(투입), ax(자르는 자리가 재지는 축 x/y),
+  // span(자르는 선이 걸치는 범위), focus(그림에서 보여줄 곳), rest(마지막 컷 뒤 남는 곳, 없으면 null)
+  function program(b, o) {
+    var dir = b.dir, off = b.offset, K = o.kerf, isNew = b.kind === 'new';
+    var fullA = dir === 'A' ? b.fullW : b.fullH, fullL = dir === 'A' ? b.fullH : b.fullW;
+    var axA = dir === 'A' ? 'x' : 'y', axL = dir === 'A' ? 'y' : 'x';
+    function R(a0, l0, a, l) { return dir === 'A' ? { x: a0, y: l0, w: a, h: l } : { x: l0, y: a0, w: l, h: a }; }
+    // 조각 크기를 부품 표와 같은 방향(가로×세로)으로
+    function size(p, r) { var pr = R(0, 0, p.a, p.l); return pr.w === p.it.w && pr.h === p.it.h ? r.w + '×' + r.h : r.h + '×' + r.w; }
+    function trim(len) { return isNew ? [{ dim: b.margin, note: '여백 다듬기', cut: { s: 0, e: b.margin } }] : []; }
+    var steps = [];
+
+    var items = trim(), pos = 0;
+    b.strips.forEach(function (st) { items.push({ dim: st.a, cut: { s: off + pos, e: off + pos + st.a } }); pos += st.a + K; });
+    var restA = b.A - pos;
+    steps.push({
+      title: '① 판 켜기',
+      feed: dir === 'A' ? '1220 쪽으로 재며 켜기 (긴 띠 ' + b.fullH + ')' : '2440 쪽으로 재며 켜기 (짧은 띠 ' + b.fullW + ')',
+      lines: group(items), ax: axA, span: [0, fullL], focus: R(0, 0, fullA, fullL), edge: isNew,
+      rest: restA > 0 ? R(off + pos, off, restA, b.L) : null
+    });
+
+    // 같은 띠는 한 번에
+    var seen = {};
+    pos = 0;
+    b.strips.forEach(function (st, si) {
+      var p0 = off + pos;
+      pos += st.a + K;
+      var sig = st.a + ':' + st.segs.map(function (g) { return g.l + '/' + g.pieces.map(function (p) { return p.a; }).join(','); }).join('|');
+      if (seen[sig]) { seen[sig].count++; return; }
+      var its = trim(), lpos = 0, subs = [];
+      st.segs.forEach(function (g) {
+        var l0 = off + lpos;
+        its.push({ dim: g.l, cut: { s: l0, e: l0 + g.l } });
+        lpos += g.l + K;
+        var sum = 0, pcs = [];
+        g.pieces.forEach(function (p, i) {
+          if (i) sum += K;
+          pcs.push({ dim: p.a, cut: { s: p0 + sum, e: p0 + sum + p.a } });
+          sum += p.a;
+        });
+        var T = R(p0, l0, st.a, g.l), first = g.pieces[0];
+        if (g.pieces.length > 1 || sum < st.a) {
+          var wa = st.a - sum - K;
+          var names = g.pieces.map(function (p) { return p.it.name; });
+          subs.push({
+            title: g.pieces.length === 1 ? '③ ' + names[0] + ' 만들기' : '③ 토막 나누기: ' + names.join(', '),
+            desc: '자르기 전 ' + size(first, T) + ' 조각 → 완성 ' + g.pieces.map(function (p) { return size(p, R(0, 0, p.a, g.l)); }).join(', '),
+            feed: '조각 ' + size(first, T) + ', ' + st.a + ' 쪽으로 재며 자르기',
+            lines: group(pcs), ax: axA, span: [l0, l0 + g.l], focus: T,
+            rest: wa > 0 ? R(p0 + sum + K, l0, wa, g.l) : null
+          });
+        }
+        var ap = 0;
+        g.pieces.forEach(function (p, i) {
+          if (i) ap += K;
+          var a0 = p0 + ap;
+          ap += p.a;
+          if (p.l >= g.l) return;
+          var wl0 = g.l - p.l - K, P = R(a0, l0, p.a, g.l);
+          subs.push({
+            title: '④ ' + p.it.name + ' 길이 맞추기',
+            desc: '자르기 전 ' + size(p, P) + ' 조각 → 완성 ' + size(p, R(0, 0, p.a, p.l)),
+            feed: '조각 ' + size(p, P) + ', ' + g.l + ' 쪽으로 재며 자르기',
+            lines: [{ dim: p.l, n: 1, note: '', cuts: [{ s: l0, e: l0 + p.l }] }], ax: axL, span: [a0, a0 + p.a], focus: P,
+            rest: wl0 > 0 ? R(a0, l0 + p.l + K, p.a, wl0) : null
+          });
+        });
+      });
+      var wl = b.L - lpos;
+      var step = {
+        title: '② 띠 ' + st.a + ' 자르기', count: 1, strip: si,
+        feed: '띠 ' + st.a + '×' + fullL + ', ' + fullL + ' 쪽으로 재며 자르기',
+        lines: group(its), ax: axL, span: [p0, p0 + st.a], focus: R(p0, 0, st.a, fullL), edge: isNew,
+        rest: wl > 0 ? R(p0, off + lpos, st.a, wl) : null, subs: subs
+      };
+      seen[sig] = step;
+      steps.push(step);
+    });
+    return steps;
+  }
+
+  // 화면에 8줄씩 보여주기
+  function pages(lines) {
+    var out = [];
+    for (var i = 0; i < lines.length; i += 8) out.push(lines.slice(i, i + 8));
+    return out;
+  }
+
+  // 배치가 똑같은 판끼리 묶는다
+  function signature(b) {
+    return b.kind + (b.scrap ? b.scrap.id : '') + b.dir + JSON.stringify(b.placed.map(function (r) { return [r.x, r.y, r.w, r.h, r.name]; }));
+  }
+  function groupBoards(boards) {
+    var out = [], bySig = {};
+    boards.forEach(function (b) {
+      var sig = signature(b);
+      if (b.kind === 'new' && bySig[sig]) bySig[sig].count++;
+      else { var g = { board: b, count: 1 }; out.push(g); if (b.kind === 'new') bySig[sig] = g; }
+    });
+    return out;
+  }
+
+  root.Cutting = { solve: solve, pages: pages, groupBoards: groupBoards, DEFAULTS: DEFAULTS };
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var won = function (n) { return Math.round(n || 0).toLocaleString('ko-KR') + '원'; };
+  var uid = function () { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); };
+  function lget(k, d) { try { var v = localStorage.getItem('sy.' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+  function lset(k, v) { try { localStorage.setItem('sy.' + k, JSON.stringify(v)); } catch (e) {} }
+
+  // ---------------- 상태 ----------------
+  // 현장 하나 = sites/<id> 문서. 자투리 = scraps 모음. 단가·결 = settings/materials 문서.
+  var db = null, sample = null, imgOk = false;
+  var cfg = Object.assign({ sheetW: 1220, sheetH: 2440, kerf: 3, margin: 10, matMode: 'one', groupMode: 'mix' }, lget('cfg', {}));
+  var ONE_MAT = '전체 (한 자재로 테스트)';
+  var site = blankSite();
+  var mats = { prices: {}, grain: {} };
+  var scraps = [];
+  var images = {};   // 도면 id → File (이번 화면에서만)
+  function blankSite() { return { id: uid(), name: '', drawings: [], products: [], result: null, updated: 0 }; }
+  function allParts() {
+    var out = [];
+    site.products.forEach(function (p) { p.parts.forEach(function (x) { out.push(Object.assign({ product: p.name, productId: p.id }, x)); }); });
+    return out;
+  }
+
+  // ---------------- 저장 ----------------
+  var saveTimer = null, saving = false, again = false;
+  function dirty() {
+    site.updated = Date.now();
+    lset('draft', site);
+    if (!site.result) $('result').hidden = true;
+    if (!db) { $('saveMsg').textContent = '이 기기에만 저장됨'; return; }
+    $('saveMsg').textContent = '저장 대기…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(flush, 1200);
+  }
+  function flush() {
+    if (saving) { again = true; return; }
+    saving = true;
+    var body = JSON.parse(JSON.stringify(site));
+    db.doc('sites/' + site.id).set(body).then(function () {
+      $('saveMsg').textContent = '저장됨 ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+    }).catch(function (e) {
+      $('saveMsg').textContent = e.code === 'quota_exceeded' ? '저장 공간이 찼습니다. 오래된 현장을 지워 주세요.' : '저장 실패 (' + e.code + ')';
+    }).then(function () { saving = false; if (again) { again = false; flush(); } });
+  }
+  function saveMats() {
+    lset('mats', mats);
+    if (db) db.doc('settings/materials').set(JSON.parse(JSON.stringify(mats))).catch(function () {});
+  }
+
+  // ---------------- 현장 목록 ----------------
+  var siteList = [];
+  function renderSiteSel() {
+    var opts = siteList.slice();
+    if (!opts.some(function (s) { return s.id === site.id; })) opts.unshift({ id: site.id, name: site.name });
+    $('siteSel').innerHTML = opts.map(function (s) {
+      return '<option value="' + esc(s.id) + '"' + (s.id === site.id ? ' selected' : '') + '>' + esc(s.name || '(이름 없는 현장)') + '</option>';
+    }).join('');
+  }
+  function openSite(s) {
+    site = Object.assign(blankSite(), s);
+    images = {};
+    selStep = {};
+    $('siteName').value = site.name;
+    renderAll();
+  }
+  $('siteSel').onchange = function () {
+    var id = this.value;
+    if (!db || id === site.id) return;
+    db.doc('sites/' + id).get().then(function (snap) { if (snap.exists) openSite(snap.data()); });
+  };
+  $('newSite').onclick = function () { openSite(blankSite()); renderSiteSel(); };
+  $('siteName').oninput = function () { site.name = this.value; dirty(); renderSiteSel(); };
+
+  // ---------------- 1. 도면 분석 ----------------
+  var RULES = [
+    '너는 신영싱크(싱크대·붙박이장 제작 시공)의 재단 담당이다. 첨부한 그림은 스케치업으로 그린 가구 도면 캡처다.',
+    '아래 순서로 판단해서 JSON 하나로만 답하라.',
+    '1. 그림 속 완성품(따로 만드는 장 하나하나: 하부장, 상부장, 키큰장, 붙박이장, EP 등)을 나눈다. 한 줄로 이어진 장은 칸마다 나누지 말고 하나의 완성품으로 본다.',
+    '2. 그림에 적힌 치수와 글자(색상, D650 같은 깊이 표시, EP, 기기 이름)를 모두 읽어 readDims에 적는다.',
+    '3. 완성품마다 합판 부품을 뽑는다. 재단 치수는 엣지 붙이기 전 치수, mm 정수. w = 가로, h = 세로이고 세로가 결 방향이다 (문짝·옆판은 높이가 세로).',
+    '   아직 정해진 도면 규칙이 없다. 아래 임시 규칙을 쓰고, 임시 규칙으로 정한 값은 basis를 "임시규칙"으로 적는다.',
+    '   - 판 두께 18T. 옆판 = 몸통 높이 × 깊이, 2장. 바닥판·천판은 옆판 사이에 들어간다: (폭 - 36) × 깊이.',
+    '   - 문짝은 몸통 앞을 전부 덮는다. 문 사이 틈 3mm, 바깥 가장자리 틈 없음.',
+    '   - 뒷판·선반·서랍 속 부품은 그림에 보이지 않으면 넣지 말고 질문으로 묻는다.',
+    '   - 상판(대리석), 후드, 개수대, 쿡탑 같은 기기와 철물은 합판 부품이 아니다.',
+    '   그림에서 치수를 그대로 읽은 값은 basis "도면", 다른 치수로 계산한 값은 "계산", 짐작한 값은 "추정".',
+    '4. 치수가 안 보이거나, 두 가지로 읽히거나, 치수끼리 합이 안 맞거나, 짐작한 곳은 questions에 질문으로 남긴다. 짐작한 값은 options의 첫 번째에 넣는다. 질문은 현장 사장님이 바로 답할 수 있게 짧고 구체적으로, 어느 완성품의 어느 곳인지 밝힌다.',
+    '5. feasibility에 이 그림만으로 부품을 뽑을 수 있는 정도를 "가능"(그림만으로 확실), "규칙 필요"(짜는 방식을 정하면 됨), "불가능"(그림에 정보가 없음) 세 갈래로 짧게 적는다.',
+    '자재 표기는 "종류+두께 색상" (예: "PB18 차콜그레이", "MD18 실키화이트"). 그림에 색상만 있으면 몸통은 PB18, 문짝·EP는 MD18로 적고 basis는 "추정".',
+    'JSON 모양 (다른 글 없이 이것만):',
+    '{"products":[{"key":"p1","name":"하부장","kind":"싱크 하부장","size":{"w":2560,"h":800,"d":650},"parts":[{"name":"옆판","w":650,"h":800,"qty":2,"material":"PB18 차콜그레이","basis":"계산","note":""}]}],',
+    ' "readDims":[{"where":"전체 폭","value":"3200"}],',
+    ' "questions":[{"id":"q1","product":"p1","question":"…","options":["…","…"]}],',
+    ' "feasibility":{"가능":["…"],"규칙 필요":["…"],"불가능":["…"]}}'
+  ].join('\n');
+
+  function analyzePrompt(dw) {
+    var s = RULES;
+    var answered = (dw.questions || []).filter(function (q) { return dw.answers && dw.answers[q.id]; });
+    if (dw.analysis && answered.length) {
+      s += '\n\n이전 분석 결과:\n' + JSON.stringify({ products: dw.analysis.products, questions: dw.questions });
+      s += '\n\n사장님 답변:\n' + answered.map(function (q) { return '- [' + q.id + '] ' + q.question + ' → ' + dw.answers[q.id]; }).join('\n');
+      s += '\n\n답변을 반영해서 같은 JSON 모양으로 다시 답하라. 답변으로 정해진 값은 basis를 "사장님"으로 적고, 답한 질문은 questions에서 빼라. 아직 답하지 않은 질문은 id를 그대로 둔다.';
+    }
+    return s;
+  }
+
+  function addDrawing(file) {
+    var dw = { id: uid(), fileName: file.name, state: 'wait', analysis: null, questions: [], answers: {}, feasibility: null, readDims: [] };
+    images[dw.id] = file;
+    site.drawings.push(dw);
+    dirty(); renderDrawings();
+    analyze(dw);
+  }
+
+  var running = {};
+  function analyze(dw) {
+    var file = images[dw.id];
+    if (!sample || !imgOk) { dw.state = 'noai'; renderDrawings(); return; }
+    if (!file) { dw.state = 'nofile'; renderDrawings(); return; }
+    var ctl = new AbortController();
+    running[dw.id] = ctl;
+    dw.state = 'run'; dw.error = ''; renderDrawings();
+    sample.json(analyzePrompt(dw), { images: [file], modelTier: 'complex', signal: ctl.signal, cache: false })
+      .then(function (r) {
+        if (!r || !Array.isArray(r.products)) throw { code: 'invalid_json', message: '부품 목록이 없습니다' };
+        dw.analysis = { products: r.products };
+        dw.readDims = Array.isArray(r.readDims) ? r.readDims : [];
+        dw.feasibility = r.feasibility || null;
+        var keep = dw.answers || {};
+        dw.questions = Array.isArray(r.questions) ? r.questions : [];
+        dw.answers = {};
+        dw.questions.forEach(function (q) { if (keep[q.id]) dw.answers[q.id] = keep[q.id]; });
+        dw.state = 'done';
+        applyAnalysis(dw);
+      })
+      .catch(function (e) {
+        dw.state = e.code === 'cancelled' ? 'stopped' : 'error';
+        dw.error = errText(e);
+      })
+      .then(function () { delete running[dw.id]; dirty(); renderAll(); });
+  }
+  function errText(e) {
+    var m = {
+      not_granted: '이 페이지가 Claude를 쓰도록 허용되지 않았습니다. 다시 열어 허용해 주세요.',
+      rate_limited: 'Claude 사용량이 잠시 찼습니다. 조금 뒤 다시 분석을 눌러 주세요.',
+      image_rejected: '그림 파일을 읽지 못했습니다. PNG나 JPG로 다시 올려 주세요.',
+      invalid_json: 'Claude 답을 부품 목록으로 바꾸지 못했습니다. 다시 분석을 눌러 주세요.',
+      refused: 'Claude가 이 그림 분석을 거절했습니다.',
+      session_expired: 'Claude 로그인이 풀렸습니다. 다시 로그인해 주세요.'
+    };
+    return m[e && e.code] || ('분석 중 오류: ' + ((e && (e.message || e.code)) || '알 수 없음'));
+  }
+
+  // 분석 결과를 부품 표로: 이 도면에서 나온 완성품은 새로 바꾼다 (손으로 고친 다른 완성품은 그대로)
+  function applyAnalysis(dw) {
+    site.products = site.products.filter(function (p) { return p.drawing !== dw.id; });
+    (dw.analysis.products || []).forEach(function (ap, i) {
+      site.products.push({
+        id: uid(), drawing: dw.id, key: ap.key || ('p' + (i + 1)), name: ap.name || ('완성품 ' + (i + 1)), kind: ap.kind || '',
+        size: ap.size || null,
+        parts: (ap.parts || []).map(function (x) {
+          return { id: uid(), name: String(x.name || ''), w: Math.round(Number(x.w) || 0), h: Math.round(Number(x.h) || 0),
+            qty: Math.max(1, Math.round(Number(x.qty) || 1)), mat: String(x.material || ''), basis: x.basis || '', note: x.note || '' };
+        })
+      });
+    });
+    site.result = null;
+  }
+
+  function renderDrawings() {
+    var box = $('drawings');
+    if (!site.drawings.length) {
+      box.innerHTML = '<p class="note">도면 그림을 올리면 Claude가 치수와 글자를 읽어 완성품별 부품을 채웁니다. 애매한 곳은 여기에 질문으로 뜹니다. 그림 없이 부품을 직접 넣어도 됩니다.</p>';
+      return;
+    }
+    box.innerHTML = site.drawings.map(function (dw) {
+      var img = images[dw.id] ? '<img alt="' + esc(dw.fileName) + '" src="' + URL.createObjectURL(images[dw.id]) + '">' : '<div class="note">그림은 올린 기기에서만 보입니다. 다시 분석하려면 그림을 다시 올려 주세요.</div>';
+      var st = {
+        wait: '분석 준비 중…', run: 'Claude가 도면을 읽는 중… (1~2분 걸릴 수 있습니다)',
+        done: '분석 끝', error: dw.error, stopped: '멈췄습니다', noai: '이 화면에서는 Claude 분석을 쓸 수 없습니다. 부품을 직접 넣어 주세요.',
+        nofile: '그림이 이 기기에 없습니다'
+      }[dw.state] || '';
+      var prods = site.products.filter(function (p) { return p.drawing === dw.id; });
+      var h = '<div class="dw">' + img + '<div class="body">';
+      h += '<div class="row" style="justify-content:space-between"><b>' + esc(dw.fileName) + '</b><span class="row">' +
+        (dw.state === 'run' ? '<button class="small" data-stop="' + dw.id + '">멈추기</button>' :
+          '<button class="small" data-re="' + dw.id + '">' + (dw.analysis ? '답변 반영해 다시 분석' : '분석') + '</button>') +
+        '<button class="small" data-del="' + dw.id + '">빼기</button></span></div>';
+      h += '<div class="status ' + (dw.state === 'error' ? 'warn' : 'muted') + '">' + esc(st) +
+        (prods.length ? ' · 완성품 ' + prods.length + '개, 부품 ' + prods.reduce(function (s, p) { return s + p.parts.length; }, 0) + '줄' : '') + '</div>';
+      if (dw.feasibility) {
+        h += '<div class="feas">' + ['가능', '규칙 필요', '불가능'].map(function (k) {
+          var l = dw.feasibility[k] || [];
+          return '<div><b class="' + (k === '가능' ? 'pill ok' : k === '불가능' ? 'pill warn' : 'pill est') + '">' + k + '</b><ul>' +
+            (l.length ? l.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') : '<li class="muted">없음</li>') + '</ul></div>';
+        }).join('') + '</div>';
+      }
+      if (dw.readDims && dw.readDims.length) {
+        h += '<details><summary class="muted">읽은 치수·글자 ' + dw.readDims.length + '개</summary><p class="muted">' +
+          dw.readDims.map(function (d) { return esc(d.where) + ' <b class="num">' + esc(d.value) + '</b>'; }).join(' · ') + '</p></details>';
+      }
+      if (dw.questions && dw.questions.length) {
+        h += '<div class="qs"><b>확인할 것 ' + dw.questions.length + '개</b>' + dw.questions.map(function (q) {
+          var ans = (dw.answers || {})[q.id] || '';
+          var pn = (prods.filter(function (p) { return p.key === q.product; })[0] || {}).name;
+          return '<div class="q"><div>' + (pn ? '<span class="pill">' + esc(pn) + '</span> ' : '') + esc(q.question) + '</div>' +
+            (q.options && q.options.length ? '<div class="opts">' + q.options.map(function (o) {
+              return '<button class="small' + (ans === o ? ' on' : '') + '" data-ans="' + dw.id + '|' + esc(q.id) + '" data-v="' + esc(o) + '">' + esc(o) + '</button>';
+            }).join('') + '</div>' : '') +
+            '<input data-anstext="' + dw.id + '|' + esc(q.id) + '" placeholder="직접 답하기" value="' + esc(q.options && q.options.indexOf(ans) >= 0 ? '' : ans) + '"></div>';
+        }).join('') + '</div>';
+      }
+      return h + '</div></div>';
+    }).join('');
+    box.querySelectorAll('[data-re]').forEach(function (b) { b.onclick = function () { analyze(findDw(b.dataset.re)); }; });
+    box.querySelectorAll('[data-stop]').forEach(function (b) { b.onclick = function () { var c = running[b.dataset.stop]; if (c) c.abort(); }; });
+    box.querySelectorAll('[data-del]').forEach(function (b) {
+      b.onclick = function () {
+        var id = b.dataset.del;
+        site.drawings = site.drawings.filter(function (d) { return d.id !== id; });
+        site.products = site.products.filter(function (p) { return p.drawing !== id; });
+        site.result = null; dirty(); renderAll();
+      };
+    });
+    box.querySelectorAll('[data-ans]').forEach(function (b) {
+      b.onclick = function () {
+        var k = b.dataset.ans.split('|'), dw = findDw(k[0]);
+        dw.answers = dw.answers || {};
+        dw.answers[k[1]] = dw.answers[k[1]] === b.dataset.v ? '' : b.dataset.v;
+        dirty(); renderDrawings();
+      };
+    });
+    box.querySelectorAll('[data-anstext]').forEach(function (inp) {
+      inp.onchange = function () {
+        var k = inp.dataset.anstext.split('|'), dw = findDw(k[0]);
+        dw.answers = dw.answers || {};
+        dw.answers[k[1]] = inp.value.trim();
+        dirty(); renderDrawings();
+      };
+    });
+  }
+  function findDw(id) { return site.drawings.filter(function (d) { return d.id === id; })[0]; }
+
+  $('pick').onchange = function () {
+    Array.prototype.forEach.call(this.files, addDrawing);
+    this.value = '';
+  };
+
+  // ---------------- 2. 부품 표 ----------------
+  function renderParts() {
+    var box = $('partsBox');
+    if (!site.products.length) {
+      box.innerHTML = '<p class="note">아직 부품이 없습니다. 도면을 올리거나 "완성품 추가"로 직접 넣으세요.</p>';
+      return;
+    }
+    box.innerHTML = site.products.map(function (p, pi) {
+      return '<div class="prod-h"><input value="' + esc(p.name) + '" data-pname="' + pi + '" aria-label="완성품 이름">' +
+        (p.kind ? '<span class="pill">' + esc(p.kind) + '</span>' : '') +
+        (p.size ? '<span class="muted num">' + [p.size.w, p.size.h, p.size.d].filter(Boolean).join(' × ') + '</span>' : '') +
+        (p.drawing ? '<span class="muted">도면에서</span>' : '') +
+        '<button class="small" data-pdel="' + pi + '">완성품 빼기</button></div>' +
+        '<div class="scroll"><table class="parts"><thead><tr><th>부품</th><th>가로</th><th>세로</th><th>수량</th><th>자재</th><th></th></tr></thead><tbody>' +
+        p.parts.map(function (x, xi) {
+          var est = x.basis === '추정' || x.basis === '임시규칙';
+          return '<tr data-p="' + pi + '" data-x="' + xi + '">' +
+            '<td><input data-f="name" value="' + esc(x.name) + '" placeholder="부품 이름"' + (x.note ? ' title="' + esc(x.note) + '"' : '') + '>' +
+            (x.basis ? '<span class="pill' + (est ? ' est' : '') + '" style="margin-top:3px">' + esc(x.basis) + '</span>' : '') + '</td>' +
+            '<td><input class="num" data-f="w" type="number" inputmode="numeric" value="' + (x.w || '') + '" placeholder="가로"></td>' +
+            '<td><input class="num" data-f="h" type="number" inputmode="numeric" value="' + (x.h || '') + '" placeholder="세로"></td>' +
+            '<td><input class="num" data-f="qty" type="number" inputmode="numeric" value="' + (x.qty || 1) + '" title="수량"></td>' +
+            '<td><input data-f="mat" list="matList" value="' + esc(x.mat) + '" placeholder="예: PB18 차콜그레이"></td>' +
+            '<td><button class="small" data-xdel="1" aria-label="이 줄 지우기">✕</button></td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<button class="small" data-xadd="' + pi + '" style="margin-top:6px">+ 부품 줄</button>';
+    }).join('') + '<datalist id="matList">' + knownMats().map(function (m) { return '<option value="' + esc(m) + '">'; }).join('') + '</datalist>';
+
+    box.querySelectorAll('[data-pname]').forEach(function (inp) {
+      inp.oninput = function () { site.products[inp.dataset.pname].name = inp.value; site.result = null; dirty(); };
+      inp.onchange = function () { renderMats(); };
+    });
+    box.querySelectorAll('[data-pdel]').forEach(function (b) {
+      b.onclick = function () { site.products.splice(Number(b.dataset.pdel), 1); site.result = null; dirty(); renderAll(); };
+    });
+    box.querySelectorAll('[data-xadd]').forEach(function (b) {
+      b.onclick = function () {
+        var p = site.products[b.dataset.xadd], last = p.parts[p.parts.length - 1];
+        p.parts.push({ id: uid(), name: '', w: 0, h: 0, qty: 1, mat: last ? last.mat : '' });
+        dirty(); renderParts();
+      };
+    });
+    box.querySelectorAll('tr[data-p]').forEach(function (tr) {
+      var x = site.products[tr.dataset.p].parts[tr.dataset.x];
+      tr.querySelectorAll('input[data-f]').forEach(function (inp) {
+        inp.oninput = function () {
+          var f = inp.dataset.f;
+          x[f] = (f === 'w' || f === 'h' || f === 'qty') ? Math.round(Number(inp.value) || 0) : inp.value;
+          if (f !== 'name' && f !== 'mat') x.basis = '사장님';
+          site.result = null; dirty();
+        };
+        inp.onchange = function () { renderMats(); };
+      });
+      tr.querySelector('[data-xdel]').onclick = function () {
+        site.products[tr.dataset.p].parts.splice(Number(tr.dataset.x), 1);
+        site.result = null; dirty(); renderParts(); renderMats();
+      };
+    });
+  }
+  function knownMats() {
+    var s = {};
+    Object.keys(mats.prices).forEach(function (m) { s[m] = 1; });
+    allParts().forEach(function (x) { if (x.mat) s[x.mat] = 1; });
+    return Object.keys(s).sort();
+  }
+  $('addProd').onclick = function () {
+    site.products.push({ id: uid(), name: '완성품 ' + (site.products.length + 1), kind: '', parts: [{ id: uid(), name: '', w: 0, h: 0, qty: 1, mat: '' }] });
+    dirty(); renderParts();
+  };
+  $('exBtn').onclick = function () {
+    site.products.push({ id: uid(), name: '서랍장 (예시)', kind: '예시', parts: [
+      { id: uid(), name: '옆판', w: 700, h: 2000, qty: 4, mat: 'PB18 2114' },
+      { id: uid(), name: '판', w: 450, h: 2000, qty: 4, mat: 'PB18 2114' }] });
+    site.result = null; dirty(); renderAll();
+  };
+  $('pasteBtn').onclick = function () { $('pasteBox').hidden = false; $('pasteText').focus(); };
+  $('pasteCancel').onclick = function () { $('pasteBox').hidden = true; };
+  $('pasteOk').onclick = function () {
+    var prev = '', rows = [];
+    $('pasteText').value.split(/\r?\n/).forEach(function (line) {
+      var c = line.split('\t').map(function (s) { return s.trim(); });
+      if (c.length < 3) c = line.trim().split(/\s{2,}|,/).map(function (s) { return s.trim(); });
+      var w = Number((c[1] || '').replace(/,/g, '')), h = Number((c[2] || '').replace(/,/g, ''));
+      if (!(w > 0 && h > 0)) return;
+      var m = c[4] || prev; prev = m;
+      rows.push({ id: uid(), name: c[0], w: Math.round(w), h: Math.round(h), qty: Math.round(Number(c[3]) || 1), mat: m });
+    });
+    if (!rows.length) return;
+    if (!site.products.length) site.products.push({ id: uid(), name: '붙여넣은 부품', kind: '', parts: [] });
+    site.products[0].parts = site.products[0].parts.concat(rows);
+    $('pasteText').value = ''; $('pasteBox').hidden = true;
+    site.result = null; dirty(); renderAll();
+  };
+
+  // ---------------- 3. 자재 ----------------
+  function usedMats() {
+    var by = {};
+    allParts().forEach(function (x) {
+      if (!(x.w > 0 && x.h > 0 && x.qty > 0)) return;
+      var m = x.mat || '(자재 없음)';
+      by[m] = by[m] || { n: 0 }; by[m].n += x.qty;
+    });
+    return by;
+  }
+  function renderMats() {
+    var by = usedMats(), names = Object.keys(by), missing = 0;
+    $('matRows').innerHTML = names.map(function (m) {
+      var pr = mats.prices[m];
+      if (pr == null) missing++;
+      var n = scraps.filter(function (s) { return s.material === m; }).length;
+      return '<tr><td>' + esc(m) + '</td><td class="num">' + by[m].n + '개</td>' +
+        '<td><input class="num" type="number" data-price="' + esc(m) + '" style="max-width:130px" value="' + (pr == null ? '' : pr) + '" placeholder="단가"></td>' +
+        '<td><label class="chk"><input type="checkbox" data-grain="' + esc(m) + '"' + (mats.grain[m] ? ' checked' : '') + '> 결 있음</label></td>' +
+        '<td>' + (n ? n + '개' : '<span class="muted">없음</span>') + '</td></tr>';
+    }).join('');
+    $('matHint').textContent = !names.length ? '부품을 넣으면 자재가 여기에 나옵니다.'
+      : cfg.matMode === 'one' ? '지금은 테스트로 모든 부품을 한 자재로 계산합니다 (아래 "자재 구분"에서 바꿈). 자재비는 0원으로 나옵니다.'
+      : missing ? '단가를 한 번 넣으면 다음 현장부터 저절로 들어갑니다. 비어 있으면 자재비를 0원으로 셉니다.' : '';
+    $('matRows').querySelectorAll('[data-price]').forEach(function (inp) {
+      inp.onchange = function () {
+        var m = inp.dataset.price;
+        if (inp.value === '') delete mats.prices[m]; else mats.prices[m] = Number(inp.value);
+        saveMats();
+      };
+    });
+    $('matRows').querySelectorAll('[data-grain]').forEach(function (c) {
+      c.onchange = function () { mats.grain[c.dataset.grain] = c.checked; saveMats(); };
+    });
+  }
+
+  // ---------------- 계산 ----------------
+  ['matMode', 'groupMode'].forEach(function (id) {
+    $(id).value = cfg[id];
+    $(id).onchange = function () { cfg[id] = this.value; lset('cfg', cfg); renderMats(); };
+  });
+  ['cW', 'cH', 'cK', 'cM'].forEach(function (id, i) {
+    var k = ['sheetW', 'sheetH', 'kerf', 'margin'][i];
+    $(id).value = cfg[k];
+    $(id).onchange = function () { cfg[k] = Number(this.value) || 0; lset('cfg', cfg); };
+  });
+
+  $('calc').onclick = function () {
+    var parts = allParts().filter(function (x) { return x.w > 0 && x.h > 0 && x.qty > 0; });
+    if (!parts.length) { $('calcMsg').textContent = '가로·세로·수량이 들어간 부품이 없습니다.'; return; }
+    var gp = parts.filter(function (x) { return mats.grain[x.mat || '(자재 없음)']; });
+    if (!gp.length) return runCalc(parts);
+    $('grainList').innerHTML = gp.map(function (x, i) {
+      return '<label class="chk"><input type="checkbox" data-gi="' + i + '"' + (x.grain !== false ? ' checked' : '') + '> ' +
+        esc(x.product) + ' · ' + esc(x.name || '부품') + ' <span class="num">' + x.w + '×' + x.h + '</span> · ' + x.qty + '개</label>';
+    }).join('');
+    $('grainDlg').showModal();
+    $('grainOk').onclick = function () {
+      $('grainDlg').querySelectorAll('[data-gi]').forEach(function (c) { gp[Number(c.dataset.gi)].grain = c.checked; });
+      $('grainDlg').close();
+      runCalc(parts);
+    };
+  };
+  $('grainCancel').onclick = function () { $('grainDlg').close(); };
+
+  // 완성품별로 묶어 계산해서 늘어나는 합판이 1장 이하면 묶고, 아니면 섞어서 장수를 줄인다
+  function solveMaterial(list, sc, opt) {
+    var toPart = function (x) { return { name: x.name || '부품', w: x.w, h: x.h, qty: x.qty, grain: !!x.grain, tag: x.product }; };
+    var mixed = Cutting.solve(list.map(toPart), sc, opt);
+    if (cfg.groupMode === 'mix') return { res: mixed, mode: 'mix', mixedNew: mixed.newCount, groupedNew: null };
+    var prods = [];
+    list.forEach(function (x) { if (prods.indexOf(x.product) < 0) prods.push(x.product); });
+    if (prods.length < 2) return { res: mixed, mode: 'one', mixedNew: mixed.newCount, groupedNew: mixed.newCount };
+    var left = sc.slice(), boards = [], unplaced = [], gNew = 0;
+    prods.forEach(function (pn) {
+      var r = Cutting.solve(list.filter(function (x) { return x.product === pn; }).map(toPart), left, opt);
+      r.boards.forEach(function (b) { if (b.scrap) left = left.filter(function (s) { return s.id !== b.scrap.id; }); });
+      boards = boards.concat(r.boards); unplaced = unplaced.concat(r.unplaced); gNew += r.newCount;
+    });
+    if (gNew - mixed.newCount <= 1) return { res: { boards: boards, unplaced: unplaced, newCount: gNew }, mode: 'grouped', mixedNew: mixed.newCount, groupedNew: gNew };
+    return { res: mixed, mode: 'mixed', mixedNew: mixed.newCount, groupedNew: gNew };
+  }
+
+  // 합판보다 큰 부품은 합판 쓸 수 있는 크기(여백 뺀 1200 × 2420)로 나눠서 자른다 (임시 규칙)
+  function splitOversize(parts, opt) {
+    var maxS = opt.sheetW - 2 * opt.margin, maxL = opt.sheetH - 2 * opt.margin, out = [], notes = [];
+    function cuts(len, max) { var r = []; while (len > max) { r.push(max); len -= max; } r.push(len); return r; }
+    parts.forEach(function (x) {
+      var fits = (x.w <= maxS && x.h <= maxL) || (!x.grain && x.h <= maxS && x.w <= maxL);
+      if (fits) { out.push(x); return; }
+      // 긴 쪽을 2440 방향으로 (결 있는 부품은 세로가 2440 방향)
+      var alongW = !x.grain && x.w > x.h;
+      var ws = cuts(x.w, alongW ? maxL : maxS), hs = cuts(x.h, alongW ? maxS : maxL), k = 0, n = ws.length * hs.length;
+      ws.forEach(function (w) { hs.forEach(function (h) {
+        k++; out.push(Object.assign({}, x, { name: (x.name || '부품') + ' (나눔 ' + k + '/' + n + ')', w: w, h: h }));
+      }); });
+      notes.push({ product: x.product, name: x.name, w: x.w, h: x.h, qty: x.qty, into: ws.map(function (w) { return hs.map(function (h) { return w + '×' + h; }).join(', '); }).join(', ') });
+    });
+    return { parts: out, notes: notes };
+  }
+
+  function runCalc(parts) {
+    $('calcMsg').textContent = '계산 중… (자재마다 몇 초)';
+    $('calc').disabled = true;
+    setTimeout(function () {
+      try {
+        var opt0 = { sheetW: cfg.sheetW, sheetH: cfg.sheetH, kerf: cfg.kerf, margin: cfg.margin };
+        var sp = splitOversize(parts, opt0);
+        parts = sp.parts;
+        if (cfg.matMode === 'one') parts = parts.map(function (x) { return Object.assign({}, x, { mat: ONE_MAT }); });
+        var byMat = {}, order = [];
+        parts.forEach(function (x) { var m = x.mat || '(자재 없음)'; if (!byMat[m]) { byMat[m] = []; order.push(m); } byMat[m].push(x); });
+        var opt = { sheetW: cfg.sheetW, sheetH: cfg.sheetH, kerf: cfg.kerf, margin: cfg.margin };
+        var t0 = Date.now();
+        site.result = {
+          at: Date.now(), opt: opt, splits: sp.notes, matMode: cfg.matMode, groupMode: cfg.groupMode,
+          mats: order.map(function (m) {
+            var sc = $('useScraps').checked ? scraps.filter(function (s) { return s.material === m; }) : [];
+            var s = solveMaterial(byMat[m], sc, opt);
+            var no = 0;
+            return {
+              material: m, price: mats.prices[m] || 0, mode: s.mode, mixedNew: s.mixedNew, groupedNew: s.groupedNew,
+              newCount: s.res.newCount,
+              unplaced: s.res.unplaced.map(function (u) { return { name: u.name, w: u.w, h: u.h, tag: u.tag, grain: u.grain }; }),
+              groups: Cutting.groupBoards(s.res.boards).map(function (g) {
+                var b = g.board, prods = [];
+                b.placed.forEach(function (r) { if (prods.indexOf(r.tag) < 0) prods.push(r.tag); });
+                var foreign = b.kind === 'scrap' && b.scrap && (b.scrap.site !== site.name || prods.indexOf(b.scrap.product) < 0);
+                return {
+                  count: g.count, cut: 0, okMixed: false, okForeign: false, products: prods, foreign: foreign,
+                  board: { kind: b.kind, dir: b.dir, fullW: b.fullW, fullH: b.fullH, margin: b.margin, usage: b.usage,
+                    scrap: b.scrap ? { id: b.scrap.id, w: b.scrap.w, h: b.scrap.h, site: b.scrap.site || '', product: b.scrap.product || '' } : null,
+                    placed: b.placed, program: b.program },
+                  leftovers: b.leftovers.map(function (r) { no++; return { no: no, x: r.x, y: r.y, w: r.w, h: r.h, keep: false }; })
+                };
+              })
+            };
+          })
+        };
+        selStep = {};
+        $('calcMsg').textContent = '계산 끝 (' + ((Date.now() - t0) / 1000).toFixed(1) + '초)';
+        dirty(); renderResult();
+        $('result').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        $('calcMsg').textContent = '계산 중 오류: ' + e.message;
+      }
+      $('calc').disabled = false;
+    }, 30);
+  }
+
+  // ---------------- 결과 ----------------
+  // st = 고른 재단 단계: 그 부분만 밝게, 자르는 자리(빨간 선·번호)와 줄자 치수를 그린다
+  function svgBoard(b, lefts, st) {
+    var W = b.fullH, H = b.fullW; // 눕혀서: 가로축 = 2440 쪽
+    var guide = st && st.lines && st.lines[0] && st.lines[0].cuts;
+    var s = '';
+    s += '<rect x="0" y="0" width="' + W + '" height="' + H + '" style="fill:var(--sheet);stroke:var(--sheet-line)" stroke-width="3"/>';
+    if (b.margin) s += '<rect x="' + b.margin + '" y="' + b.margin + '" width="' + (W - 2 * b.margin) + '" height="' + (H - 2 * b.margin) + '" style="fill:none;stroke:var(--sheet-line)" stroke-dasharray="12 8" stroke-width="2"/>';
+    function txt(x, y, w, h, lines, color) {
+      var fs = Math.max(14, Math.min(60, Math.min(w / 6.5, h / (lines.length * 1.4))));
+      var vert = h > w * 1.6 && w < 160, cx = x + w / 2, cy = y + h / 2;
+      var t = '<text x="' + cx + '" y="' + cy + '" font-size="' + fs + '" style="fill:' + color + '" text-anchor="middle" dominant-baseline="middle"' + (vert ? ' transform="rotate(-90 ' + cx + ' ' + cy + ')"' : '') + '>';
+      lines.forEach(function (l, i) { t += '<tspan x="' + cx + '" dy="' + (i ? fs * 1.15 : -(lines.length - 1) * fs * 0.57) + '">' + esc(l) + '</tspan>'; });
+      return t + '</text>';
+    }
+    lefts.forEach(function (r) {
+      var x = r.y, y = r.x, w = r.h, h = r.w;
+      s += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" style="fill:var(' + (r.keep ? '--keep' : '--scrap') + ');stroke:var(' + (r.keep ? '--keep-line' : '--scrap-line') + ')" stroke-width="2"/>';
+      if (w > 60 && h > 30) s += txt(x, y, w, h, ['#' + r.no, r.w + '×' + r.h], 'var(' + (r.keep ? '--keep-ink' : '--scrap-ink') + ')');
+    });
+    b.placed.forEach(function (r) {
+      var x = r.y, y = r.x, w = r.h, h = r.w;
+      s += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" style="fill:var(--part);stroke:var(--part-line)" stroke-width="3"/>';
+      s += txt(x, y, w, h, [r.name || '부품', r.pw + '×' + r.ph + (r.rot ? ' ↻' : '')], 'var(--part-ink)');
+    });
+    var vb = [-4, -4, W + 8, H + 8];
+    if (guide) {
+      var F = { x: st.focus.y, y: st.focus.x, w: st.focus.h, h: st.focus.w };
+      // 휴대폰에서도 보이게 고른 부분을 크게
+      var pad = Math.max(F.w, F.h) * 0.06 + 30, vx = F.x - pad, vy = F.y - pad, vw = F.w + 2 * pad, vh = F.h + 2 * pad;
+      if (vw < vh * 1.4) { vx -= (vh * 1.4 - vw) / 2; vw = vh * 1.4; }
+      if (vw > vh * 3.2) { vy -= (vw / 3.2 - vh) / 2; vh = vw / 3.2; }
+      vb = [vx, vy, vw, vh];
+      var fs = Math.max(16, Math.min(110, vw / 22)), sw = fs / 9, k = 0;
+      s += '<path fill-rule="evenodd" d="M' + (vx - 10) + ' ' + (vy - 10) + 'h' + (vw + 20) + 'v' + (vh + 20) + 'h' + (-vw - 20) + 'Z M' + F.x + ' ' + F.y + 'h' + F.w + 'v' + F.h + 'h' + (-F.w) + 'Z" style="fill:var(--bg)" opacity=".78"/>';
+      s += '<rect x="' + F.x + '" y="' + F.y + '" width="' + F.w + '" height="' + F.h + '" style="fill:none;stroke:var(--ink)" stroke-width="' + sw + '"/>';
+      if (st.rest) s += '<rect x="' + st.rest.y + '" y="' + st.rest.x + '" width="' + st.rest.h + '" height="' + st.rest.w + '" style="fill:none;stroke:var(--scrap-line)" stroke-width="' + sw * 1.5 + '" stroke-dasharray="' + sw * 4 + ' ' + sw * 3 + '"/>';
+      var lab = 'style="fill:var(--ink);stroke:var(--card);paint-order:stroke" stroke-width="' + fs * 0.3 + '" font-size="' + fs + '"';
+      var sp0 = st.span[0], sp1 = st.span[1], q = sp0 + Math.min((sp1 - sp0) * 0.3, fs * 1.6), qc = sp1 - Math.min((sp1 - sp0) * 0.3, fs * 1.2);
+      var np = Math.ceil(st.lines.length / 8);
+      st.lines.forEach(function (l, i) {
+        var no = np > 1 ? (Math.floor(i / 8) + 1) + '-' + (i % 8 + 1) : String(i % 8 + 1);
+        l.cuts.forEach(function (c) {
+          // 붙어 있는 컷끼리 번호가 겹치지 않게 번갈아 놓는다
+          var m = (c.s + c.e) / 2, t = fs * 0.35, qn = qc - (k++ % 2) * fs * 1.8;
+          if (st.ax === 'x') {
+            // 보드 x = 그림 세로축
+            s += '<line x1="' + sp0 + '" y1="' + c.e + '" x2="' + sp1 + '" y2="' + c.e + '" style="stroke:var(--warn)" stroke-width="' + sw * 1.6 + '"/>';
+            s += '<path d="M' + (q - t) + ' ' + c.s + 'h' + 2 * t + 'M' + q + ' ' + c.s + 'V' + c.e + 'M' + (q - t) + ' ' + c.e + 'h' + 2 * t + '" style="fill:none;stroke:var(--ink)" stroke-width="' + sw + '"/>';
+            s += '<text x="' + (q + t * 1.6) + '" y="' + m + '" dominant-baseline="middle" ' + lab + '>' + l.dim + '</text>';
+            s += '<circle cx="' + qn + '" cy="' + c.e + '" r="' + fs * 0.75 + '" style="fill:var(--warn)"/><text x="' + qn + '" y="' + c.e + '" font-size="' + fs * (no.length > 1 ? 0.7 : 0.95) + '" style="fill:#fff" text-anchor="middle" dominant-baseline="central">' + no + '</text>';
+          } else {
+            s += '<line x1="' + c.e + '" y1="' + sp0 + '" x2="' + c.e + '" y2="' + sp1 + '" style="stroke:var(--warn)" stroke-width="' + sw * 1.6 + '"/>';
+            s += '<path d="M' + c.s + ' ' + (q - t) + 'v' + 2 * t + 'M' + c.s + ' ' + q + 'H' + c.e + 'M' + c.e + ' ' + (q - t) + 'v' + 2 * t + '" style="fill:none;stroke:var(--ink)" stroke-width="' + sw + '"/>';
+            s += '<text x="' + m + '" y="' + (q - t * 1.4) + '" text-anchor="middle" ' + lab + '>' + l.dim + '</text>';
+            s += '<circle cx="' + c.e + '" cy="' + qn + '" r="' + fs * 0.75 + '" style="fill:var(--warn)"/><text x="' + c.e + '" y="' + qn + '" font-size="' + fs * (no.length > 1 ? 0.7 : 0.95) + '" style="fill:#fff" text-anchor="middle" dominant-baseline="central">' + no + '</text>';
+          }
+        });
+      });
+    }
+    return '<svg class="lay" viewBox="' + vb.join(' ') + '" role="img" aria-label="배치 그림">' + s + '</svg>';
+  }
+  // 마지막 컷 뒤에 남는 것: 자투리 목록 번호와 맞춘다
+  function restText(st, b, lefts) {
+    if (!('rest' in st)) return '';
+    if (!st.rest) return '<span class="pill">' + (st.edge ? '여백 버림' : '남는 것 없음') + '</span>';
+    var r = st.rest, hit = lefts.filter(function (x) { return x.x === r.x && x.y === r.y && x.w === r.w && x.h === r.h; })[0];
+    return '<span class="pill est">자투리 ' + (hit ? '#' + hit.no + ' ' : '') + r.w + '×' + r.h + '</span>';
+  }
+  function stepBox(st, extra, key, idx, on, b, lefts) {
+    var pg = Cutting.pages(st.lines), click = !!(st.lines[0] && st.lines[0].cuts), rest = restText(st, b, lefts), last = st.lines.length - 1;
+    return '<div class="stepbox' + (click ? ' click' : '') + (on ? ' on' : '') + '"' + (click ? ' role="button" tabindex="0" aria-pressed="' + on + '" data-step="' + key + '|' + idx + '"' : '') + '>' +
+      '<div class="t">' + esc(st.title) + (extra || '') + '</div>' +
+      (st.desc ? '<div class="d">' + esc(st.desc) + '</div>' : '') +
+      (st.feed ? '<div class="feed">투입: ' + esc(st.feed) + '</div>' : '') +
+      pg.map(function (lines, i) {
+        return (pg.length > 1 ? '<div class="muted">화면 ' + (i + 1) + ' / ' + pg.length + '</div>' : '') +
+          '<table><thead><tr><th>순서</th><th>입력치수</th><th>횟수</th><th></th></tr></thead><tbody>' +
+          lines.map(function (l, j) {
+            var note = esc(l.note || '') + (i * 8 + j === last && rest ? (l.note ? ' ' : '') + rest : '');
+            return '<tr><td>' + (j + 1) + '</td><td class="n"><b>' + l.dim + '</b></td><td class="n">' + l.n + '</td><td class="muted">' + note + '</td></tr>';
+          }).join('') +
+          '</tbody></table>';
+      }).join('') + '</div>';
+  }
+  function flatSteps(b) {
+    var out = [];
+    b.program.forEach(function (st) { out.push(st); (st.subs || []).forEach(function (u) { out.push(u); }); });
+    return out;
+  }
+
+  var selStep = {};   // 판마다 고른 재단 단계 (그림 안내)
+  function renderResult() {
+    var R = site.result, el = $('result');
+    if (!R) { el.hidden = true; return; }
+    var totNew = 0, totCost = 0, totBoards = 0, totCut = 0, totParts = 0, cutParts = 0, needCheck = 0;
+    R.mats.forEach(function (m) {
+      totNew += m.newCount; totCost += m.newCount * priceOf(m) + edgeOf(m);
+      m.groups.forEach(function (g) {
+        totBoards += g.count; totCut += g.cut;
+        totParts += g.board.placed.length * g.count; cutParts += g.board.placed.length * g.cut;
+        if (g.products.length > 1 && !g.okMixed) needCheck++;
+        if (g.foreign && !g.okForeign) needCheck++;
+      });
+    });
+    var h = '<h2><span class="step">4</span>결과' + (site.name ? ' · ' + esc(site.name) : '') + '</h2>';
+    h += '<div class="summary">';
+    R.mats.forEach(function (m) {
+      var usedSc = m.groups.filter(function (g) { return g.board.kind === 'scrap'; }).length;
+      h += '<div class="tile"><div class="muted">' + esc(m.material) + '</div><div class="big">' + m.newCount + '장</div>' +
+        (usedSc ? '<div class="muted">+ 자투리 ' + usedSc + '개</div>' : '') +
+        '<div class="num">' + won(m.newCount * priceOf(m) + edgeOf(m)) + '</div>' +
+        '<div class="muted">' + ({ one: '완성품 1개', grouped: '완성품별로 묶음', mixed: '섞어서 줄임', mix: '섞어서 자름' }[m.mode]) +
+        (m.mode === 'grouped' || m.mode === 'mixed' ? ' (묶으면 ' + m.groupedNew + '장, 섞으면 ' + m.mixedNew + '장)' : '') + '</div></div>';
+    });
+    h += '<div class="tile"><div class="muted">현장 합계</div><div class="big">' + totNew + '장</div><div class="num">' + won(totCost) + '</div>' +
+      '<div class="muted">재단 ' + totCut + ' / ' + totBoards + '판 · 부품 ' + cutParts + ' / ' + totParts + '개</div></div></div>';
+    if (R.matMode === 'one' || R.groupMode === 'mix') h += '<p class="note" style="margin-top:10px">테스트 계산: ' +
+      [R.matMode === 'one' ? '색상·자재 구분 없이 한 자재로' : '', R.groupMode === 'mix' ? '완성품 섞어서' : ''].filter(Boolean).join(', ') + ' 잘랐습니다. 실제 발주 장수와 다를 수 있습니다.</p>';
+    if (R.splits && R.splits.length) h += '<div class="note" style="margin-top:10px"><b>합판보다 커서 나눈 부품</b> (임시 규칙: 합판 크기로 나눠 자름)<ul style="margin:4px 0 0; padding-left:18px">' +
+      R.splits.map(function (n) { return '<li>' + esc(n.product) + ' · ' + esc(n.name) + ' <span class="num">' + n.w + '×' + n.h + '</span>' + (n.qty > 1 ? ' ×' + n.qty : '') + ' → <span class="num">' + esc(n.into) + '</span></li>'; }).join('') + '</ul></div>';
+    if (needCheck) h += '<p class="warn" style="margin-top:10px">확인할 판이 ' + needCheck + '개 있습니다. 다른 완성품과 섞인 판, 다른 완성품 자투리를 쓴 판에 체크해 주세요.</p>';
+
+    R.mats.forEach(function (m, mi) {
+      h += '<h3>' + esc(m.material) + '</h3>';
+      if (m.unplaced.length) h += '<p class="warn">판에 들어가지 않는 부품: ' + m.unplaced.map(function (u) { return esc(u.tag) + ' ' + esc(u.name) + ' ' + u.w + '×' + u.h; }).join(', ') + '</p>';
+      m.groups.forEach(function (g, gi) {
+        var b = g.board, key = mi + '|' + gi;
+        var kind = b.kind === 'new' ? '새 합판 ' + b.fullW + '×' + b.fullH : '자투리 ' + b.fullW + '×' + b.fullH + (b.scrap && b.scrap.site ? ' (' + esc(b.scrap.site) + (b.scrap.product ? ' · ' + esc(b.scrap.product) : '') + ')' : '');
+        h += '<div class="board"><div class="board-head"><span class="times">' + (g.count > 1 ? g.count + '장 똑같이' : '1장') + '</span><span>' + kind + '</span>' +
+          '<span class="muted">사용률 ' + (b.usage * 100).toFixed(1) + '%</span>' +
+          g.products.map(function (p) { return '<span class="pill">' + esc(p) + '</span>'; }).join('') + '</div>';
+        if (g.products.length > 1) h += '<label class="chk"><input type="checkbox" data-okm="' + key + '"' + (g.okMixed ? ' checked' : '') + '> <span class="pill ' + (g.okMixed ? 'ok' : 'warn') + '">섞인 판</span> ' + g.products.map(esc).join(' + ') + ' 부품이 한 판에 있습니다. 확인함</label>';
+        if (g.foreign) h += '<label class="chk"><input type="checkbox" data-okf="' + key + '"' + (g.okForeign ? ' checked' : '') + '> <span class="pill ' + (g.okForeign ? 'ok' : 'warn') + '">다른 자투리</span> ' + esc((b.scrap.site || '다른 현장') + (b.scrap.product ? ' · ' + b.scrap.product : '')) + '에서 남은 자투리를 씁니다. 확인함</label>';
+        var flat = flatSteps(b), si = selStep[key], sst = si != null ? flat[si] : null;
+        h += '<div class="layWrap">' + svgBoard(b, g.leftovers, sst) +
+          (sst ? '<div class="muted"><b>' + esc(sst.title) + '</b> · 빨간 선 = 자르는 자리, 동그라미 = 순서 번호, 점선 = 남는 곳. 같은 단계를 다시 누르면 판 전체가 보입니다.</div>'
+            : '<div class="muted">그림: 가로가 2440 쪽, 세로가 1220 쪽. ↻ = 돌려서 놓은 부품. 점선 = 여백.</div>') + '</div>';
+        h += '<div class="counter"><span>자른 장수</span><button class="small" data-cut="' + key + '|-1" aria-label="한 장 빼기">−</button><b>' + g.cut + ' / ' + g.count + '</b><button class="small" data-cut="' + key + '|1" aria-label="한 장 더하기">+</button>' + (g.cut >= g.count ? '<span class="pill ok">다 잘랐음</span>' : '') + '</div>';
+        h += '<details' + (g.cut >= g.count ? '' : ' open') + '><summary><b>재단 프로그램에는 다음과 같은 순서로 입력하시오</b></summary>' +
+          '<div class="muted" style="margin-top:4px">' + (flat[0] && flat[0].lines[0] && flat[0].lines[0].cuts ? '단계를 누르면 위 그림에 자르는 자리와 순서 번호가 나옵니다.' : '"합판 계산하기"를 다시 누르면 단계별 그림 안내가 나옵니다.') + '</div>' +
+          '<div class="prog" style="margin-top:6px">';
+        flat.forEach(function (st, i) {
+          h += stepBox(st, st.count > 1 ? ' (같은 띠 ' + st.count + '개)' : '', key, i, si === i, b, g.leftovers);
+        });
+        h += '</div></details>';
+        if (g.leftovers.length) {
+          h += '<details><summary>자투리 ' + g.leftovers.length + '개' + (g.count > 1 ? ' (판마다)' : '') + ' · 재사용 ' + g.leftovers.filter(function (r) { return r.keep; }).length + '</summary><div class="scroll"><table class="scraps"><thead><tr><th>번호</th><th>가로(1220쪽)</th><th>세로(2440쪽)</th><th>개수</th><th>고르기</th></tr></thead><tbody>' +
+            g.leftovers.map(function (r, ri) {
+              return '<tr class="' + (r.keep ? 'keep' : '') + '"><td>#' + r.no + '</td><td class="num">' + r.w + '</td><td class="num">' + r.h + '</td><td class="num">' + g.count + '</td><td>' +
+                '<button class="small pick ' + (r.keep ? 'on' : '') + '" data-keep="' + key + '|' + ri + '|1">재사용</button> ' +
+                '<button class="small pick ' + (r.keep ? '' : 'off') + '" data-keep="' + key + '|' + ri + '|0">폐기</button></td></tr>';
+            }).join('') + '</tbody></table></div></details>';
+        }
+        h += '</div>';
+      });
+    });
+
+    h += quoteBox(R);
+
+    var keepN = 0, usedN = 0;
+    R.mats.forEach(function (m) { m.groups.forEach(function (g) {
+      g.leftovers.forEach(function (r) { if (r.keep) keepN += g.count; });
+      if (g.board.kind === 'scrap') usedN++;
+    }); });
+    h += '<div class="confirm" style="margin-top:16px"><b>재단 확정</b><div>재사용으로 고른 자투리 <b>' + keepN + '개</b>를 자투리 목록에 더하고, 이번에 쓴 자투리 <b>' + usedN + '개</b>를 목록에서 뺍니다.</div>' +
+      (R.committed ? '<div class="pill ok">' + new Date(R.committed).toLocaleString('ko-KR') + '에 확정함</div>' :
+        '<div class="row"><button class="primary" id="commitBtn"' + (db ? '' : ' disabled') + '>확정하고 자투리 저장</button><span class="muted" id="commitMsg">' + (db ? '' : '이 화면에서는 저장할 수 없습니다.') + '</span></div>') +
+      '<div class="row" id="commitAsk" hidden><span>정말 확정할까요?</span><button class="primary" id="commitYes">확정</button><button id="commitNo">취소</button></div></div>';
+
+    el.innerHTML = h; el.hidden = false;
+    function g(key) { var k = key.split('|'); return R.mats[k[0]].groups[k[1]]; }
+    el.querySelectorAll('[data-okm]').forEach(function (c) { c.onchange = function () { g(c.dataset.okm).okMixed = c.checked; dirty(); keep(renderResult); }; });
+    el.querySelectorAll('[data-okf]').forEach(function (c) { c.onchange = function () { g(c.dataset.okf).okForeign = c.checked; dirty(); keep(renderResult); }; });
+    el.querySelectorAll('[data-step]').forEach(function (b) {
+      function pick() {
+        var k = b.dataset.step.split('|'), key = k[0] + '|' + k[1], i = Number(k[2]);
+        selStep[key] = selStep[key] === i ? null : i;
+        keep(renderResult);
+      }
+      b.onclick = pick;
+      b.onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } };
+    });
+    el.querySelectorAll('[data-cut]').forEach(function (b) {
+      b.onclick = function () {
+        var k = b.dataset.cut.split('|'), gg = R.mats[k[0]].groups[k[1]];
+        gg.cut = Math.max(0, Math.min(gg.count, gg.cut + Number(k[2])));
+        dirty(); keep(renderResult);
+      };
+    });
+    el.querySelectorAll('[data-keep]').forEach(function (b) {
+      b.onclick = function () {
+        var k = b.dataset.keep.split('|'), gg = R.mats[k[0]].groups[k[1]];
+        gg.leftovers[k[2]].keep = k[3] === '1';
+        dirty(); keep(renderResult);
+      };
+    });
+    el.querySelectorAll('[data-qprice]').forEach(function (inp) {
+      inp.onchange = function () {
+        var m = inp.dataset.qprice;
+        if (inp.value === '') delete mats.prices[m]; else mats.prices[m] = Math.round(Number(inp.value) || 0);
+        saveMats(); renderMats(); keep(renderResult);
+      };
+    });
+    el.querySelectorAll('[data-qedge]').forEach(function (inp) {
+      inp.onchange = function () {
+        R.edges = R.edges || {};
+        R.edges[inp.dataset.qedge] = Math.round(Number(inp.value) || 0);
+        dirty(); keep(renderResult);
+      };
+    });
+    if ($('qCopy')) $('qCopy').onclick = function () {
+      var text = quoteText(R), box = $('qText');
+      function manual() {
+        box.hidden = false; box.value = text; box.focus(); box.select();
+        $('qMsg').textContent = '이 기기에서는 바로 복사가 안 됩니다. 아래 글을 모두 선택해서 복사해 주세요.';
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          box.hidden = true; $('qMsg').textContent = '복사했습니다. 견적서 시트 "합판재단" 탭의 A1 칸에 붙여넣으세요.';
+        }, manual);
+      } else manual();
+    };
+    var cb = $('commitBtn');
+    if (cb) {
+      cb.onclick = function () { $('commitAsk').hidden = false; };
+      $('commitNo').onclick = function () { $('commitAsk').hidden = true; };
+      $('commitYes').onclick = commit;
+    }
+  }
+  // ---------------- 견적서로 보내기 ----------------
+  // 합판 금액 = 장수 × 한 장 단가 (단가는 자재 설정에서 고친 값이 우선), 엣지값은 현장마다 직접 입력
+  function priceOf(m) { var p = mats.prices[m.material]; return p != null ? p : (m.price || 0); }
+  function edgeOf(m) { return (site.result && site.result.edges && site.result.edges[m.material]) || 0; }
+  function quoteRows(R) {
+    return R.mats.map(function (m) {
+      var p = priceOf(m), e = edgeOf(m);
+      return { material: m.material, count: m.newCount, price: p, hasPrice: mats.prices[m.material] != null || !!m.price, board: m.newCount * p, edge: e, sum: m.newCount * p + e };
+    });
+  }
+  function quoteText(R) {
+    var day = new Date(R.at || Date.now()).toISOString().slice(0, 10), name = site.name || '(이름 없는 현장)';
+    var lines = [['현장', '날짜', '자재', '장수', '한 장 단가', '합판 금액', '엣지값', '합계'].join('\t')];
+    quoteRows(R).forEach(function (r) {
+      lines.push([name, day, r.material, r.count, r.price, r.board, r.edge, r.sum].join('\t'));
+    });
+    return lines.join('\n');
+  }
+  function quoteBox(R) {
+    var rows = quoteRows(R), tot = { count: 0, board: 0, edge: 0, sum: 0 }, noPrice = 0;
+    rows.forEach(function (r) { tot.count += r.count; tot.board += r.board; tot.edge += r.edge; tot.sum += r.sum; if (!r.hasPrice) noPrice++; });
+    var h = '<div class="quote"><h3 style="margin:0">견적서로 보내기</h3>';
+    if (R.matMode === 'one') h += '<p class="warn" style="margin:0">지금은 "모두 한 자재로 (테스트)"로 계산해서 금액이 맞지 않습니다. 3번에서 "자재별로 따로"로 바꾸고 다시 계산해 주세요.</p>';
+    h += '<div class="scroll"><table class="qtable"><thead><tr><th>자재</th><th>장수</th><th>한 장 단가(원)</th><th>합판 금액</th><th>엣지값(원)</th><th>합계</th></tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr><td>' + esc(r.material) + (r.hasPrice ? '' : ' <span class="pill warn">단가 없음</span>') + '</td>' +
+          '<td class="num" data-l="장수">' + r.count + '장</td>' +
+          '<td data-l="한 장 단가"><input class="num" type="number" inputmode="numeric" data-qprice="' + esc(r.material) + '" value="' + (r.hasPrice ? r.price : '') + '" placeholder="단가" style="max-width:120px"></td>' +
+          '<td class="num" data-l="합판 금액">' + won(r.board) + '</td>' +
+          '<td data-l="엣지값"><input class="num" type="number" inputmode="numeric" data-qedge="' + esc(r.material) + '" value="' + (r.edge || '') + '" placeholder="0" style="max-width:110px"></td>' +
+          '<td class="num" data-l="합계"><b>' + won(r.sum) + '</b></td></tr>';
+      }).join('') +
+      '<tr class="qtot"><td><b>현장 합계</b></td><td class="num" data-l="장수">' + tot.count + '장</td><td class="qempty"></td><td class="num" data-l="합판 금액">' + won(tot.board) + '</td><td class="num" data-l="엣지값">' + won(tot.edge) + '</td><td class="num" data-l="합계"><b>' + won(tot.sum) + '</b></td></tr>' +
+      '</tbody></table></div>';
+    if (noPrice) h += '<p class="muted" style="margin:0">단가 없는 자재는 0원으로 셉니다. 단가를 넣으면 다음 현장부터 저절로 들어갑니다.</p>';
+    h += '<div class="row"><button class="primary" id="qCopy">견적서로 복사</button><span class="muted" id="qMsg"></span></div>' +
+      '<textarea id="qText" hidden readonly></textarea>' +
+      '<details><summary class="muted">견적서 시트에 넣는 방법</summary><ol style="margin:6px 0 0; padding-left:20px; font-size:13px">' +
+      '<li>"견적서로 복사"를 누릅니다.</li>' +
+      '<li>견적서 시트의 "합판재단" 탭(처음 한 번 만들어 두기)을 열고, 전에 있던 내용을 지운 뒤 A1 칸에 붙여넣습니다.</li>' +
+      '<li>처음 한 번만: 견적 탭에 "합판" 칸을 만들고 <code>=SUM(합판재단!H:H)</code> 를 넣은 뒤, 금액 칸 합계에 더합니다.</li>' +
+      '</ol></details></div>';
+    return h;
+  }
+
+  // 다시 그려도 보던 자리와 펼친 칸 유지
+  function keep(fn) {
+    var y = window.scrollY;
+    var open = Array.prototype.map.call($('result').querySelectorAll('details'), function (d) { return d.open; });
+    fn();
+    Array.prototype.forEach.call($('result').querySelectorAll('details'), function (d, i) { if (i < open.length) d.open = open[i]; });
+    window.scrollTo(0, y);
+  }
+
+  function commit() {
+    var R = site.result, add = [], remove = [];
+    R.mats.forEach(function (m) { m.groups.forEach(function (g) {
+      if (g.board.kind === 'scrap' && g.board.scrap) remove.push(g.board.scrap.id);
+      var prods = g.products.join(', ');
+      g.leftovers.forEach(function (r) {
+        if (!r.keep) return;
+        for (var k = 0; k < g.count; k++) add.push({ material: m.material, w: r.w, h: r.h, site: site.name, product: prods, date: new Date().toISOString().slice(0, 10) });
+      });
+    }); });
+    $('commitYes').disabled = true;
+    var chain = Promise.resolve();
+    remove.forEach(function (id) { chain = chain.then(function () { return db.doc('scraps/' + id).delete(); }); });
+    add.forEach(function (s) { chain = chain.then(function () { return db.collection('scraps').add(s); }); });
+    chain.then(function () {
+      R.committed = Date.now(); dirty(); renderResult();
+    }).catch(function (e) {
+      $('commitMsg').textContent = e.code === 'quota_exceeded' ? '자투리 목록이 꽉 찼습니다. 안 쓰는 자투리를 지워 주세요.' : '저장 실패 (' + e.code + '). 다시 눌러 주세요.';
+      $('commitAsk').hidden = true; $('commitYes').disabled = false;
+    });
+  }
+
+  function renderAll() { renderDrawings(); renderParts(); renderMats(); renderResult(); }
+
+  // ---------------- 시작 ----------------
+  var draft = lget('draft', null);
+  if (draft && draft.id) site = Object.assign(blankSite(), draft);
+  mats = lget('mats', mats);
+  $('siteName').value = site.name;
+  renderAll(); renderSiteSel();
+
+  window.claude && window.claude.use('sample').then(function (s) {
+    sample = s;
+    if (!s) { $('aiState').textContent = '이 화면에서는 Claude 도면 분석을 쓸 수 없습니다. claude.ai에서 열어 주세요.'; $('pickLabel').hidden = true; return; }
+    return s.limits().then(function (l) {
+      imgOk = !!(l && l.images);
+      $('aiState').textContent = imgOk ? '처음 분석할 때 Claude 사용 허용을 묻습니다. 사장님 Claude 사용량에서 씁니다.' : '이 화면에서는 그림을 Claude에게 보낼 수 없습니다.';
+      if (!imgOk) $('pickLabel').hidden = true;
+    }).catch(function () { $('aiState').textContent = 'Claude 연결을 확인하지 못했습니다.'; });
+  });
+  if (!window.claude) { $('aiState').textContent = 'claude.ai에서 열어야 도면 분석을 쓸 수 있습니다.'; $('pickLabel').hidden = true; }
+
+  window.claude && window.claude.use('db').then(function (d) {
+    db = d;
+    if (!d) { $('saveMsg').textContent = '이 기기에만 저장됨'; $('siteSel').innerHTML = '<option>' + esc(site.name || '현재 현장') + '</option>'; return; }
+    d.doc('settings/materials').get().then(function (s) {
+      if (s.exists) { var v = s.data(); mats = { prices: v.prices || {}, grain: v.grain || {} }; lset('mats', mats); renderMats(); }
+    }).catch(function () {});
+    d.collection('sites').orderBy('updated', 'desc').limit(50).onSnapshot(function (snap) {
+      siteList = snap.docs.map(function (x) { var v = x.data(); return { id: x.id, name: v.name }; });
+      renderSiteSel();
+    }, function () {});
+    d.collection('scraps').onSnapshot(function (snap) {
+      scraps = snap.docs.map(function (x) { return Object.assign({ id: x.id }, x.data()); });
+      renderMats();
+    }, function () {});
+    $('saveMsg').textContent = '저장 준비됨';
+  });
+})();
+</script>
+
+</body></html>
